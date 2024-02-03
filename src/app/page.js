@@ -1,8 +1,22 @@
+"use client"
+
+import { useState } from 'react'
 import Head from "next/head";
+import { doLogin } from "@/services/Web3Service";
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const btnLoginClick = () => {
-    console.log("click")
+  const [message, setMessage] = useState();
+
+  const { push } = useRouter();
+
+  function btnLoginClick() {
+    doLogin()
+      .then(account => push("/vote"))
+      .catch(err => {
+        console.error(err);
+        setMessage(err.message);
+      })
   }
 
   return (
@@ -22,11 +36,12 @@ export default function Home() {
             <p className="lead">Votação on-chain do BBB.</p>
             <p className="lead mb-3">Autentique-se com sua carteira e deixe seu voto para o próximo paredão.</p>
             <div className="d-grip gap-2 d-md-flex justify-content-md-start">
-              <button type="button" onClick={btnLoginClick()} className="btn btn-primary btn-lg px-4 me-md-2">
+              <button type="button" onClick={btnLoginClick} className="btn btn-primary btn-lg px-4 me-md-2">
                 <img src="/metamask.svg" width={64} className="me-3" />
                 Conectar com a MetaMask
               </button>
             </div>
+            <p className="message">{message}</p>
           </div>
         </div>
         <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
