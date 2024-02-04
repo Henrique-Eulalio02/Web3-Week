@@ -16,7 +16,6 @@ export default function Vote() {
   const [option2, setOption2] = useState(DEFAULT_OPTION);
   const [showVotes, setShowVotes] = useState(0);
 
-
   useEffect(() => {
     if(!localStorage.getItem("wallet")) return push("/"); 
 
